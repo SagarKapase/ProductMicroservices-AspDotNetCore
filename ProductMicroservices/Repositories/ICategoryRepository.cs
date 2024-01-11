@@ -6,5 +6,6 @@ namespace ProductMicroservices.Repositories
     {
         void AddCategory(Category category);
         Category GetProductById(int categoryId);
+        IEnumerable<Category> GetAllCategories();
     }
 }

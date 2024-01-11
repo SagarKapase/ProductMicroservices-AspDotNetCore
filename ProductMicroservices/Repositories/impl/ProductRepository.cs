@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProductMicroservices.DBContexts;
+using ProductMicroservices.DTOs;
 using ProductMicroservices.Models;
 
 namespace ProductMicroservices.Repositories.impl
@@ -12,11 +14,13 @@ namespace ProductMicroservices.Repositories.impl
         {
             _context = context;
         }
-        public void DeleteProduct(int ProductId) //Delete a product by product id
+        public string DeleteProduct(int ProductId) //Delete a product by product id
         {
             var product = _context.Products.Find(ProductId);
             _context.Products.Remove(product);
             Save();
+
+            return "Product Successfully Deleted...";
         }
 
         public IEnumerable<Product> GetAllProducts()
@@ -29,11 +33,10 @@ namespace ProductMicroservices.Repositories.impl
             return _context.Products.Find(ProductId);
         }
 
-        public void InsertProduct(Product product)
+        public ProductDTO InsertProduct(Product product)
         {
             var entity = new Product
             {
-                Id = product.Id,
                 Name = product.Name,
                 Description = product.Description,
                 Price = product.Price,
@@ -42,6 +45,17 @@ namespace ProductMicroservices.Repositories.impl
 
             _context.Products.Add(entity);
             Save();
+
+            var CreatedProduct = new ProductDTO
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+                Description = entity.Description,
+                Price = entity.Price,
+                CategoryId = entity.CategoryId
+            };
+
+            return CreatedProduct;
         }
 
         public void Save()
@@ -49,10 +63,37 @@ namespace ProductMicroservices.Repositories.impl
             _context.SaveChanges();
         }
 
-        public void UpdateProduct(Product product)
+        public ProductDTO UpdateProduct(Product product, int id)
         {
-            _context.Entry(product).State = EntityState.Modified;
+            /*_context.Entry(product).State = EntityState.Modified;
+            Save();*/
+            var getProduct = GetProductById(id);
+
+            if (getProduct == null)
+            {
+                return null;
+            }
+
+            getProduct.Name = product.Name;
+            getProduct.Description = product.Description;
+            getProduct.Price = product.Price;
+            getProduct.CategoryId = product.CategoryId;
+
+            _context.Entry(getProduct).State = EntityState.Modified;
             Save();
+
+            var updatedUser = new ProductDTO
+            {
+                Id = getProduct.Id,
+                Name = getProduct.Name,
+                Description = getProduct.Description,
+                Price = getProduct.Price,
+                CategoryId = product.CategoryId
+            };
+
+            return updatedUser;
+
+
         }
     }
 }

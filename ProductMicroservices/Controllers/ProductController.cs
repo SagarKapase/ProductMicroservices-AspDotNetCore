@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProductMicroservices.DTOs;
 using ProductMicroservices.Models;
 using ProductMicroservices.Repositories;
 using System.Transactions;
@@ -42,9 +43,9 @@ namespace ProductMicroservices.Controllers
         {
             using(var scope = new TransactionScope())
             {
-                _repository.InsertProduct(product);
+                ProductDTO newProduct = _repository.InsertProduct(product);
                 scope.Complete();
-                return CreatedAtAction(nameof(Get), new { id = product.Id }, product);
+                return Ok(newProduct);
             }
         }
 
@@ -56,9 +57,9 @@ namespace ProductMicroservices.Controllers
             {
                 using(var scope = new TransactionScope())
                 {
-                    _repository.UpdateProduct(product);
+                    ProductDTO updatedProduct = _repository.UpdateProduct(product, id);
                     scope.Complete();
-                    return new OkResult();
+                    return Ok(updatedProduct);
                 }
             }
             return new NoContentResult();
@@ -66,10 +67,10 @@ namespace ProductMicroservices.Controllers
 
         // DELETE api/<ProductController>/5
         [HttpDelete("delete/{id}")]
-        public IActionResult Delete(int id)
+        public string Delete(int id)
         {
             _repository.DeleteProduct(id);
-            return new OkResult();
+            return "Product Deleted Successfully...";
         }
     }
 }

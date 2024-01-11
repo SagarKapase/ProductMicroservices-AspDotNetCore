@@ -1,4 +1,5 @@
-﻿using ProductMicroservices.Models;
+﻿using ProductMicroservices.DTOs;
+using ProductMicroservices.Models;
 
 namespace ProductMicroservices.Repositories
 {
@@ -6,9 +7,9 @@ namespace ProductMicroservices.Repositories
     {
         IEnumerable<Product> GetAllProducts();
         Product GetProductById (int ProductId);
-        void InsertProduct(Product product);
-        void UpdateProduct(Product product);
-        void DeleteProduct(int ProductId);
+        ProductDTO InsertProduct(Product product);
+        ProductDTO UpdateProduct(Product product,int id);
+        string DeleteProduct(int ProductId);
         void Save();
 
     }

@@ -25,6 +25,11 @@ namespace ProductMicroservices.Repositories.impl
             _context.SaveChanges();
         }
 
+        public IEnumerable<Category> GetAllCategories()
+        {
+            return _context.categories.ToList();
+        }
+
         public Category GetProductById(int categoryId)
         {
             return _context.categories.Find(categoryId);

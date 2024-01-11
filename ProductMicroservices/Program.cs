@@ -12,8 +12,9 @@ builder.Services.AddControllers();
 builder.Services.AddEntityFrameworkMySQL().AddDbContext<ProductContext>
 (options => options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddTransient<IProductRepository, ProductRepository>();
-builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ProductContext>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
