@@ -1,11 +1,16 @@
-﻿using ProductMicroservices.Models;
+﻿using ProductMicroservices.DTOs;
+using ProductMicroservices.Models;
 
 namespace ProductMicroservices.Repositories
 {
     public interface ICategoryRepository
     {
-        void AddCategory(Category category);
-        Category GetProductById(int categoryId);
-        IEnumerable<Category> GetAllCategories();
+        CategoryDTO AddCategory(Category category);
+        Category GetCategoryById(int categoryId);
+        IEnumerable<CategoryDTO> GetAllCategories();
+
+        CategoryDTO UpdateCategory(Category category, int id);
+
+        string DeleteCategory(int categoryId);
     }
 }

@@ -45,7 +45,7 @@ namespace ProductMicroservices.Controllers
             {
                 ProductDTO newProduct = _repository.InsertProduct(product);
                 scope.Complete();
-                return Ok(newProduct);
+                return CreatedAtAction(nameof(Get), new { id = product.Id }, newProduct);
             }
         }
 

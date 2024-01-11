@@ -1,4 +1,6 @@
-﻿namespace ProductMicroservices.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ProductMicroservices.Models
 {
     public class Product
     {
@@ -7,7 +9,8 @@
         public string Description { get; set; }
         public decimal Price { get; set; }
         public int CategoryId { get; set; }
-        //public Category category { get; set; }
 
+        [NotMapped]
+        public Category Category { get;}
     }
 }
